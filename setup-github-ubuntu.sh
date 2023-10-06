@@ -26,7 +26,6 @@ apt-get update && apt-get install --yes --no-install-recommends \
     cpio \
     curl \
     diffstat \
-    dt-schema \
     flex \
     gawk \
     gettext \
@@ -35,6 +34,7 @@ apt-get update && apt-get install --yes --no-install-recommends \
     groff \
     kmod \
     less \
+    libpython3-dev \
     libssl-dev \
     lsb-release \
     ninja-build \
@@ -46,11 +46,13 @@ apt-get update && apt-get install --yes --no-install-recommends \
     python3-docutils \
     python3-git \
     python3-ply \
+    python3-ruamel.yaml \
     python3-venv \
     rsync \
     ruby \
     socat \
     strace \
+    swig \
     unzip \
     xz-utils \
     yamllint
@@ -73,6 +75,7 @@ rm *.xz
 export PIPX_HOME=/root/.local/pipx/venvs
 export PIPX_BIN_DIR=/root/.local/bin
 pipx install tuxmake
+pipx install dtschema
 
 apt-get clean && rm -rf /var/lib/apt/lists/
 
