@@ -59,8 +59,8 @@ apt-get update && apt-get install --yes --no-install-recommends \
 
 mkdir /opt || true
 cd /opt
-curl -O https://mirrors.edge.kernel.org/pub/tools/llvm/files/llvm-17.0.1-${arch}.tar.xz
-tar xf llvm-17.0.1-${arch}.tar.xz
+curl -O https://mirrors.edge.kernel.org/pub/tools/llvm/files/llvm-17.0.2-${arch}.tar.xz
+tar xf llvm-17.0.2-${arch}.tar.xz
 
 if [[ $debarch == "amd64" ]]; then
     curl -O https://mirrors.edge.kernel.org/pub/tools/crosstool/files/bin/x86_64/13.2.0/x86_64-gcc-13.2.0-nolibc-riscv64-linux.tar.xz || exit 1
@@ -80,7 +80,7 @@ pipx install dtschema
 apt-get clean && rm -rf /var/lib/apt/lists/
 
 echo 'export PATH=${PATH}:/root/.local/bin' >> /etc/profile
-echo "export PATH=/opt/gcc-13.2.0-nolibc/riscv64-linux/bin:/opt/gcc-13.2.0-nolibc/riscv32-linux/bin:/opt/llvm-17.0.1-${arch}/bin:\${PATH}" >> /etc/profile
+echo "export PATH=/opt/gcc-13.2.0-nolibc/riscv64-linux/bin:/opt/gcc-13.2.0-nolibc/riscv32-linux/bin:/opt/llvm-17.0.2-${arch}/bin:\${PATH}" >> /etc/profile
 echo 'export CCACHE_DIR=/ccache' >> /etc/profile
 
 git config --global --add safe.directory '*'
