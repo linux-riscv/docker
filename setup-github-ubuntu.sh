@@ -38,6 +38,7 @@ apt-get update && apt-get install --yes --no-install-recommends \
     libssl-dev \
     lsb-release \
     ninja-build \
+    parallel \
     patchutils \
     perl \
     pipx \
