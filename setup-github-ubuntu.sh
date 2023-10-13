@@ -83,6 +83,7 @@ apt-get clean && rm -rf /var/lib/apt/lists/
 echo 'export PATH=${PATH}:/root/.local/bin' >> /etc/profile
 echo "export PATH=/opt/gcc-13.2.0-nolibc/riscv64-linux/bin:/opt/gcc-13.2.0-nolibc/riscv32-linux/bin:/opt/llvm-17.0.2-${arch}/bin:\${PATH}" >> /etc/profile
 echo 'export CCACHE_DIR=/ccache' >> /etc/profile
+echo 'export CCACHE_MAXSIZE="50G"' >> /etc/profile
 
 git config --global --add safe.directory '*'
 
