@@ -55,3 +55,5 @@ RUN apt-get update && apt-get install --yes --no-install-recommends \
 
 COPY setup-kernel-toolchain.sh /usr/local/bin/setup-kernel-toolchain.sh
 RUN /usr/local/bin/setup-kernel-toolchain.sh
+
+RUN apt-get clean && rm -rf /var/lib/apt/lists/
