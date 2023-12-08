@@ -18,8 +18,8 @@ esac
 
 mkdir /opt || true
 cd /opt
-curl -O https://mirrors.edge.kernel.org/pub/tools/llvm/files/llvm-17.0.2-${arch}.tar.xz
-tar xf llvm-17.0.2-${arch}.tar.xz
+curl -O https://mirrors.edge.kernel.org/pub/tools/llvm/files/llvm-17.0.6-${arch}.tar.xz
+tar xf llvm-17.0.6-${arch}.tar.xz
 
 curl -O https://mirrors.edge.kernel.org/pub/tools/crosstool/files/bin/${tcarch}/13.2.0/${tcarch}-gcc-13.2.0-nolibc-riscv64-linux.tar.xz
 tar xf ${tcarch}-gcc-13.2.0-nolibc-riscv64-linux.tar.xz
