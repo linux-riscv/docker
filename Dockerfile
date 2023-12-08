@@ -53,5 +53,5 @@ RUN apt-get update && apt-get install --yes --no-install-recommends \
     xz-utils \
     yamllint
 
-COPY setup-github-ubuntu.sh /usr/local/bin/setup-ubuntu.sh
-RUN bash /usr/local/bin/setup-ubuntu.sh
+COPY setup-kernel-toolchain.sh /usr/local/bin/setup-kernel-toolchain.sh
+RUN /usr/local/bin/setup-kernel-toolchain.sh
