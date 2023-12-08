@@ -14,50 +14,6 @@ case ${arch} in
     ;;
 esac
 
-apt-get update && apt-get install --yes --no-install-recommends \
-    apt-transport-https \
-    bash-completion \
-    bc \
-    bison \
-    bsdextrautils \
-    build-essential \
-    ca-certificates \
-    ccache \
-    cpio \
-    curl \
-    diffstat \
-    flex \
-    gawk \
-    gettext \
-    git \
-    gnupg \
-    groff \
-    kmod \
-    less \
-    libpython3-dev \
-    libssl-dev \
-    lsb-release \
-    ninja-build \
-    parallel \
-    patchutils \
-    perl \
-    pipx \
-    pkg-config \
-    python-is-python3 \
-    python3-docutils \
-    python3-git \
-    python3-ply \
-    python3-ruamel.yaml \
-    python3-venv \
-    rsync \
-    ruby \
-    socat \
-    strace \
-    swig \
-    unzip \
-    xz-utils \
-    yamllint
-
 mkdir /opt || true
 cd /opt
 curl -O https://mirrors.edge.kernel.org/pub/tools/llvm/files/llvm-17.0.2-${arch}.tar.xz
