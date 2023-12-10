@@ -27,10 +27,13 @@ RUN apt-get update && apt-get install --yes --no-install-recommends \
     git \
     gnupg \
     groff \
+    guestfish \
     kmod \
     less \
+    libguestfs-tools \
     libpython3-dev \
     libssl-dev \
+    linux-image-generic \
     lsb-release \
     ninja-build \
     parallel \
@@ -44,6 +47,8 @@ RUN apt-get update && apt-get install --yes --no-install-recommends \
     python3-ply \
     python3-ruamel.yaml \
     python3-venv \
+    qemu-kvm \
+    qemu-utils \
     rsync \
     ruby \
     socat \
@@ -121,6 +126,7 @@ RUN apt-get update && apt-get install --yes --no-install-recommends \
     zlib1g-dev
 
 COPY mkfirmware_rv32_opensbi.sh /usr/local/bin/mkfirmware_rv32_opensbi.sh
+COPY mkfirmware_rv64_opensbi.sh /usr/local/bin/mkfirmware_rv64_opensbi.sh
 COPY mkfirmware_rv64_edk2.sh /usr/local/bin/mkfirmware_rv64_edk2.sh
 COPY mkfirmware_rv64_uboot.sh /usr/local/bin/mkfirmware_rv64_uboot.sh
 COPY mkrootfs_rv32_buildroot.sh /usr/local/bin/mkrootfs_rv32_buildroot.sh
@@ -130,6 +136,7 @@ COPY mkrootfs_tweak.sh /usr/local/bin/mkrootfs_tweak.sh
 
 RUN mkdir -p /firmware
 RUN cd /firmware && /usr/local/bin/mkfirmware_rv32_opensbi.sh
+RUN cd /firmware && /usr/local/bin/mkfirmware_rv64_opensbi.sh
 
 RUN apt install --yes --no-install-recommends acpica-tools qemu-system-misc file
 
