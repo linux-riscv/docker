@@ -31,7 +31,7 @@ packages=(
 )
 packages=$(IFS=, && echo "${packages[*]}")
 
-name="rootfs_rv64_${distro}_$(date +%Y.%m.%d).tar"
+name="rootfs_rv64_ubuntu_$(date +%Y.%m.%d).tar"
 
 setup=$(mktemp)
 
