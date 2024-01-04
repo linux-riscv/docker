@@ -42,7 +42,7 @@ pipx install dtschema
 
 echo 'export PATH=${PATH}:/root/.local/bin' >> /etc/profile
 echo "export PATH=/opt/${gcc_base}/riscv64-linux/bin:/opt/${llvm_dir}/bin:\${PATH}" >> /etc/profile
-echo 'export CCACHE_DIR=/ccache' >> /etc/profile
+echo 'export CCACHE_DIR=/build/ccache' >> /etc/profile
 echo 'export CCACHE_MAXSIZE="50G"' >> /etc/profile
 
 git config --global --add safe.directory '*'
