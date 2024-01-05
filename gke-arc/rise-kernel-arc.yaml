@@ -1,0 +1,46 @@
+githubConfigUrl: "https://github.com/linux-riscv/linux-riscv"
+githubConfigSecret:
+  github_token: "ghp_XXX"
+
+maxRunners: 20
+minRunners: 0
+
+containerMode:
+  type: "kubernetes"
+
+template:
+  metadata:
+    annotations:
+      cluster-autoscaler.kubernetes.io/safe-to-evict: "false"
+  spec:
+    securityContext:
+      fsGroup: 123
+    containers:
+      - name: runner
+        image: ghcr.io/linux-riscv/runner-multi:latest
+        command: ["/home/runner/run.sh"]
+        env:
+          - name: ACTIONS_RUNNER_CONTAINER_HOOK_TEMPLATE
+            value: "/home/runner/config/worker-podspec.yaml"
+          - name: ACTIONS_RUNNER_USE_KUBE_SCHEDULER
+            value: "true"
+        volumeMounts:
+          - name: worker-podspec-volume
+            mountPath: /home/runner/config
+            readOnly: true
+    volumes:
+      - name: worker-podspec-volume
+        configMap:
+          name: rise-kernel-worker-cm
+          items:
+            - key: worker-podspec.yaml
+              path: worker-podspec.yaml
+      - name: work
+        ephemeral:
+          volumeClaimTemplate:
+            spec:
+              storageClassName: "standard-rwx"
+              accessModes: [ "ReadWriteMany" ]
+              resources:
+                requests:
+                  storage: 1Gi
