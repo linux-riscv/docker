@@ -2,7 +2,7 @@ githubConfigUrl: "https://github.com/linux-riscv/linux-riscv"
 githubConfigSecret:
   github_token: "ghp_XXX"
 
-maxRunners: 20
+maxRunners: 10
 minRunners: 0
 
 containerMode:
@@ -24,6 +24,8 @@ template:
             value: "/home/runner/config/worker-podspec.yaml"
           - name: ACTIONS_RUNNER_USE_KUBE_SCHEDULER
             value: "true"
+          - name: ACTIONS_RUNNER_PREPARE_JOB_TIMEOUT_SECONDS
+            value: "1200"
         volumeMounts:
           - name: worker-podspec-volume
             mountPath: /home/runner/config
