@@ -97,6 +97,8 @@ RUN apt-get update && apt-get install --yes --no-install-recommends \
     less \
     libdw-dev \
     libelf-dev \
+    libgmp-dev \
+    libmpc-dev \
     libssl-dev \
     liburing-dev \
     libuuid1 \

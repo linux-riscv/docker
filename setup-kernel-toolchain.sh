@@ -44,5 +44,8 @@ echo 'export PATH=${PATH}:/root/.local/bin' >> /etc/profile
 echo "export PATH=/opt/${gcc_base}/riscv64-linux/bin:/opt/${llvm_dir}/bin:\${PATH}" >> /etc/profile
 echo 'export CCACHE_DIR=/build/ccache' >> /etc/profile
 echo 'export CCACHE_MAXSIZE="50G"' >> /etc/profile
+echo 'export KBUILD_BUILD_TIMESTAMP=@1621270510' >> /etc/profile
+echo 'export KBUILD_BUILD_USER=tuxmake' >> /etc/profile
+echo 'export KBUILD_BUILD_HOST=tuxmake' >> /etc/profile
 
 git config --global --add safe.directory '*'
