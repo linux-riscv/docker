@@ -1,10 +1,34 @@
 # SPDX-FileCopyrightText: 2023 Rivos Inc.
 #
 # SPDX-License-Identifier: Apache-2.0
+FROM ubuntu:mantic
+ARG DEBIAN_FRONTEND=noninteractive
+
+# Base packages to retrieve the other repositories/packages
+RUN apt-get update 
+RUN apt-get install --yes --no-install-recommends \
+    build-essential \
+    git \
+    libdw-dev \
+    libelf-dev \
+    libglib2.0-dev \
+    libguestfs-tools \
+    libpython3-dev \
+    libslirp-dev \
+    ninja-build \
+    python-is-python3 \
+    python3-docutils \
+    python3-git \
+    python3-ply \
+    python3-ruamel.yaml \
+    python3-venv \
+    zlib1g-dev
+
+COPY mkqemu.sh /usr/local/bin/mkqemu.sh
+RUN cd /tmp && /usr/local/bin/mkqemu.sh
 
 FROM ubuntu:mantic
-
-ENV DEBIAN_FRONTEND=noninteractive
+ARG DEBIAN_FRONTEND=noninteractive
 
 SHELL [ "/bin/bash", "--login", "-e", "-o", "pipefail", "-c" ]
 WORKDIR /tmp
@@ -135,6 +159,7 @@ COPY mkrootfs_rv32_buildroot.sh /usr/local/bin/mkrootfs_rv32_buildroot.sh
 COPY mkrootfs_rv64_alpine.sh /usr/local/bin/mkrootfs_rv64_alpine.sh
 COPY mkrootfs_rv64_ubuntu.sh /usr/local/bin/mkrootfs_rv64_ubuntu.sh
 COPY mkrootfs_tweak.sh /usr/local/bin/mkrootfs_tweak.sh
+COPY mkqemu.sh /usr/local/bin/mkqemu.sh
 
 RUN mkdir -p /firmware
 RUN cd /firmware && /usr/local/bin/mkfirmware_rv32_opensbi.sh
@@ -149,5 +174,7 @@ RUN mkdir -p /rootfs
 RUN cd /rootfs && /usr/local/bin/mkrootfs_rv32_buildroot.sh
 RUN cd /rootfs && /usr/local/bin/mkrootfs_rv64_alpine.sh
 RUN cd /rootfs && /usr/local/bin/mkrootfs_rv64_ubuntu.sh
+
+COPY --from=0 /usr/local /usr/local
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/
