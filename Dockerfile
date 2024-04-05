@@ -155,7 +155,8 @@ COPY mkfirmware_rv32_opensbi.sh /usr/local/bin/mkfirmware_rv32_opensbi.sh
 COPY mkfirmware_rv64_opensbi.sh /usr/local/bin/mkfirmware_rv64_opensbi.sh
 COPY mkfirmware_rv64_edk2.sh /usr/local/bin/mkfirmware_rv64_edk2.sh
 COPY mkfirmware_rv64_uboot.sh /usr/local/bin/mkfirmware_rv64_uboot.sh
-COPY mkrootfs_rv32_buildroot.sh /usr/local/bin/mkrootfs_rv32_buildroot.sh
+COPY mkrootfs_rv32_buildroot_glibc.sh /usr/local/bin/mkrootfs_rv32_buildroot_glibc.sh
+COPY mkrootfs_rv32_buildroot_musl.sh /usr/local/bin/mkrootfs_rv32_buildroot_musl.sh
 COPY mkrootfs_rv64_alpine.sh /usr/local/bin/mkrootfs_rv64_alpine.sh
 COPY mkrootfs_rv64_ubuntu.sh /usr/local/bin/mkrootfs_rv64_ubuntu.sh
 COPY mkrootfs_tweak.sh /usr/local/bin/mkrootfs_tweak.sh
@@ -171,7 +172,8 @@ RUN cd /firmware && /usr/local/bin/mkfirmware_rv64_edk2.sh
 RUN cd /firmware && /usr/local/bin/mkfirmware_rv64_uboot.sh
 
 RUN mkdir -p /rootfs
-RUN cd /rootfs && /usr/local/bin/mkrootfs_rv32_buildroot.sh
+RUN cd /rootfs && /usr/local/bin/mkrootfs_rv32_buildroot_glibc.sh
+RUN cd /rootfs && /usr/local/bin/mkrootfs_rv32_buildroot_musl.sh
 RUN cd /rootfs && /usr/local/bin/mkrootfs_rv64_alpine.sh
 RUN cd /rootfs && /usr/local/bin/mkrootfs_rv64_ubuntu.sh
 

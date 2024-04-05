@@ -1,0 +1,32 @@
+From 1896d7eb806c1a36b4a2b6900c26c48edbffd74f Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn@rivosinc.com>
+Date: Fri, 5 Apr 2024 08:57:21 +0200
+Subject: [PATCH] Add missing RV32 syscalls
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Add get/settimeofday.
+
+Signed-off-by: Björn Töpel <bjorn@rivosinc.com>
+---
+ arch/riscv32/bits/syscall.h.in | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/arch/riscv32/bits/syscall.h.in b/arch/riscv32/bits/syscall.h.in
+index 9228d84089e3..b2fe86f31124 100644
+--- a/arch/riscv32/bits/syscall.h.in
++++ b/arch/riscv32/bits/syscall.h.in
+@@ -147,6 +147,8 @@
+ #define __NR_umask 166
+ #define __NR_prctl 167
+ #define __NR_getcpu 168
++#define __NR_gettimeofday 169
++#define __NR_settimeofday 170
+ #define __NR_getpid 172
+ #define __NR_getppid 173
+ #define __NR_getuid 174
+
+base-commit: 7ada6dde6f9dc6a2836c3d92c2f762d35fd229e0
+--
+2.40.1
