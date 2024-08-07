@@ -13,6 +13,8 @@ root=$(mktemp -d -p "$PWD")
 
 trap 'rm -rf "$root"' EXIT
 
+export FORCE_UNSAFE_CONFIGURE=1
+
 git clone git://git.buildroot.net/buildroot $root/buildroot
 
 cp -R $d/patches/buildroot $root/

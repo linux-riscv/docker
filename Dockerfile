@@ -173,6 +173,8 @@ RUN cd /firmware && /usr/local/bin/mkfirmware_rv64_uboot.sh
 
 RUN mkdir -p /rootfs
 RUN cd /rootfs && /usr/local/bin/mkrootfs_rv32_buildroot_glibc.sh
+
+COPY patches /usr/local/bin/patches
 RUN cd /rootfs && /usr/local/bin/mkrootfs_rv32_buildroot_musl.sh
 RUN cd /rootfs && /usr/local/bin/mkrootfs_rv64_alpine.sh
 RUN cd /rootfs && /usr/local/bin/mkrootfs_rv64_ubuntu.sh
