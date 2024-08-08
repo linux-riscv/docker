@@ -17,8 +17,8 @@ case ${arch} in
 esac
 
 # Bump version here
-gcc_ver=13.2.0
-llvm_ver=17.0.6
+gcc_ver=14.2.0
+llvm_ver=18.1.8
 ###
 
 gcc_base=gcc-${gcc_ver}-nolibc
