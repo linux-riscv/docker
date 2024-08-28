@@ -10,7 +10,7 @@ set -euo pipefail
 set -x
 
 d=$(dirname "${BASH_SOURCE[0]}")
-distro=mantic
+distro=noble
 
 trap 'rm -rf "$setup"' EXIT
 

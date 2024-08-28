@@ -19,7 +19,7 @@ cd $tmp
 
 # Instructions from
 # https://github.com/vlsunil/riscv-uefi-edk2-docs/wiki/RISC-V-Qemu-Virt-support
-git clone --recurse-submodule https://github.com/tianocore/edk2.git -b edk2-stable202302
+git clone --recurse-submodule https://github.com/tianocore/edk2.git -b edk2-stable202408
 
 export WORKSPACE=`pwd`
 export GCC5_RISCV64_PREFIX=/usr/bin/riscv64-linux-gnu-
