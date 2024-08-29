@@ -38,7 +38,7 @@ cd edk2
 short_sha1=`git rev-parse --short HEAD`
 cd ..
 
-name="firmware_rv64_edk2_${short_sha1}.tar.xz"
+name="firmware_rv64_edk2_${short_sha1}.tar.zst"
 echo "${short_sha1}" > Build/RiscVVirtQemu/RELEASE_GCC5/FV/sha1
 rm -rf "$name"
-tar -C "$tmp/Build/RiscVVirtQemu/RELEASE_GCC5/FV/" -c -I 'xz -9 -T0' -f "../$name" ./RISCV_VIRT.fd ./sha1
+tar -C "$tmp/Build/RiscVVirtQemu/RELEASE_GCC5/FV/" -c -I 'zstd -T0 --ultra -20' -f "../$name" ./RISCV_VIRT.fd ./sha1

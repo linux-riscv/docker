@@ -113,8 +113,8 @@ RUN apt-get update && apt-get install --yes --no-install-recommends \
     wget \
     xz-utils \
     yamllint \
-    zlib1g-dev
-
+    zlib1g-dev \
+    zstd
 
 RUN echo 'deb [arch=amd64] http://apt.llvm.org/noble/ llvm-toolchain-noble main' >> /etc/apt/sources.list.d/llvm.list
 RUN wget -qO- https://apt.llvm.org/llvm-snapshot.gpg.key | tee /etc/apt/trusted.gpg.d/apt.llvm.org.asc
@@ -132,6 +132,8 @@ deb [arch=riscv64] http://ports.ubuntu.com/ubuntu-ports noble main restricted mu
 deb [arch=riscv64] http://ports.ubuntu.com/ubuntu-ports noble-updates main\n\
 deb [arch=riscv64] http://ports.ubuntu.com/ubuntu-ports noble-security main\n'\
 >> /etc/apt/sources.list
+
+RUN sed -i -E "s/(URIs.*)/\1\nArchitectures: amd64/" /etc/apt/sources.list.d/ubuntu.sources
 
 RUN apt-get update
 
@@ -163,6 +165,7 @@ COPY mkrootfs_rv64_alpine.sh /usr/local/bin/mkrootfs_rv64_alpine.sh
 COPY mkrootfs_rv64_ubuntu.sh /usr/local/bin/mkrootfs_rv64_ubuntu.sh
 COPY mkrootfs_tweak.sh /usr/local/bin/mkrootfs_tweak.sh
 COPY mkqemu.sh /usr/local/bin/mkqemu.sh
+COPY systemd-debian-customize-hook.sh /usr/local/bin/systemd-debian-customize-hook.sh
 
 RUN mkdir -p /firmware
 RUN cd /firmware && /usr/local/bin/mkfirmware_rv32_opensbi.sh

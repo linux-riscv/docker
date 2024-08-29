@@ -29,6 +29,6 @@ mkdir $root/musl-root
 tar -C $root/musl-root -xf $root/musl/images/rootfs.tar
 $d/mkrootfs_tweak.sh $root/musl-root
 
-name="rootfs_rv32_buildroot_musl_$(date +%Y.%m.%d).tar.xz"
+name="rootfs_rv32_buildroot_musl_$(date +%Y.%m.%d).tar.zst"
 rm -rf "$name"
-tar -C "$root/musl-root" -c -I 'xz -9 -T0' -f "$name" .
+tar -C "$root/musl-root" -c -I 'zstd -T0 --ultra -20' -f "$name" .

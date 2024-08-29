@@ -29,7 +29,7 @@ cd ..
 
 $d/mkrootfs_tweak.sh "$root"/alpine
 
-name="rootfs_rv64_alpine_$(date +%Y.%m.%d).tar.xz"
+name="rootfs_rv64_alpine_$(date +%Y.%m.%d).tar.zst"
 rm -rf "$name"
 
-tar -C "$root/alpine" -c -I 'xz -9 -T0' -f "$name" .
+tar -C "$root/alpine" -c -I 'zstd -T0 --ultra -20' -f "$name" .

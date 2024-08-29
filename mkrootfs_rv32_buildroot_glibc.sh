@@ -27,6 +27,6 @@ mkdir $root/glibc-root
 tar -C $root/glibc-root -xf $root/glibc/images/rootfs.tar
 $d/mkrootfs_tweak.sh $root/glibc-root
 
-name="rootfs_rv32_buildroot_glibc_$(date +%Y.%m.%d).tar.xz"
+name="rootfs_rv32_buildroot_glibc_$(date +%Y.%m.%d).tar.zst"
 rm -rf "$name"
-tar -C "$root/glibc-root" -c -I 'xz -9 -T0' -f "$name" .
+tar -C "$root/glibc-root" -c -I 'zstd -T0 --ultra -20' -f "$name" .

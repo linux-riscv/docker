@@ -35,7 +35,7 @@ cd $tmp
 short_sha1=`git rev-parse --short HEAD`
 cd ..
 
-name="firmware_rv64_uboot_${short_sha1}.tar.xz"
+name="firmware_rv64_uboot_${short_sha1}.tar.zst"
 echo "${short_sha1}" > $tmp/sha1
 rm -rf "$name"
-tar -C "$tmp" -c -I 'xz -9 -T0' -f "$name" ./rv64-u-boot.bin ./sha1
+tar -C "$tmp" -c -I 'zstd -T0 --ultra -20' -f "$name" ./rv64-u-boot.bin ./sha1

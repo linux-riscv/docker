@@ -23,6 +23,6 @@ short_sha1=`git rev-parse --short HEAD`
 echo "${short_sha1}" > sha1
 cd -
 
-name="firmware_rv64_opensbi_${short_sha1}.tar.xz"
+name="firmware_rv64_opensbi_${short_sha1}.tar.zst"
 rm -rf "$name"
-tar -C "$tmp/build/platform/generic/firmware" -c -I 'xz -9 -T0' -f "$name" .
+tar -C "$tmp/build/platform/generic/firmware" -c -I 'zstd -T0 --ultra -20' -f "$name" .
