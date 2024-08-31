@@ -106,6 +106,7 @@ RUN apt-get update && apt-get install --yes --no-install-recommends \
     strace \
     swig \
     texinfo \
+    time \
     traceroute \
     unzip \
     uuid-dev \
