@@ -12,11 +12,10 @@ d=$(dirname "${BASH_SOURCE[0]}")
 distro=noble
 
 packages=(
-	systemd-sysv
-	udev
         binutils
         elfutils
         ethtool
+        fsverity
         iproute2
         iptables
         keyutils
@@ -24,6 +23,8 @@ packages=(
         libelf1
         openssl
         strace
+        systemd-sysv
+        udev
         zlib1g
 )
 packages=$(IFS=, && echo "${packages[*]}")
@@ -32,9 +33,9 @@ name="rootfs_rv64_ubuntu_$(date +%Y.%m.%d).tar"
 
 mmdebstrap --include="$packages" \
            --architecture=riscv64 \
-	   --components="main restricted multiverse universe" \
-	   --customize-hook=$d/systemd-debian-customize-hook.sh \
-	   --skip=cleanup/reproducible \
+           --components="main restricted multiverse universe" \
+           --customize-hook=$d/systemd-debian-customize-hook.sh \
+           --skip=cleanup/reproducible \
            "${distro}" \
            "${name}"
 
