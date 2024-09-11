@@ -18,13 +18,22 @@ packages=(
         fsverity
         iproute2
         iptables
+        jq
         keyutils
+        libasound2t64
         libcap2
         libelf1
+        libnuma1
+        net-tools
+        netsniff-ng
         openssl
+        psmisc
+        socat
         strace
         systemd-sysv
+        tcpdump
         udev
+        uuid-runtime
         zlib1g
 )
 packages=$(IFS=, && echo "${packages[*]}")
