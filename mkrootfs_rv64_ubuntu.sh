@@ -12,6 +12,7 @@ d=$(dirname "${BASH_SOURCE[0]}")
 distro=noble
 
 packages=(
+        arping
         binutils
         elfutils
         ethtool
@@ -28,6 +29,7 @@ packages=(
         netsniff-ng
         openssl
         psmisc
+        smcroute
         socat
         strace
         systemd-sysv
