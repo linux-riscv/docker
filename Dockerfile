@@ -91,6 +91,7 @@ RUN apt-get update && apt-get install --yes --no-install-recommends \
     python-is-python3 \
     python3-docutils \
     python3-git \
+    python3-jsonschema \
     python3-ply \
     python3-ruamel.yaml \
     python3-venv \
