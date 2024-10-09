@@ -18,7 +18,7 @@ esac
 
 # Bump version here
 gcc_ver=14.2.0
-llvm_ver=18.1.8
+llvm_ver=19.1.1
 ###
 
 gcc_base=gcc-${gcc_ver}-nolibc

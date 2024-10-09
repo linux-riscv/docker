@@ -170,8 +170,9 @@ RUN cd /rootfs && /usr/local/bin/mkrootfs_rv32_buildroot_glibc.sh
 COPY mkrootfs_rv32_buildroot_musl.sh /usr/local/bin/mkrootfs_rv32_buildroot_musl.sh
 RUN cd /rootfs && /usr/local/bin/mkrootfs_rv32_buildroot_musl.sh
 
-COPY mkfirmware_rv64_edk2.sh /usr/local/bin/mkfirmware_rv64_edk2.sh
-RUN cd /firmware && /usr/local/bin/mkfirmware_rv64_edk2.sh
+# Currently we're not using EDK2, but U-Boot ACPI UEFI.
+# COPY mkfirmware_rv64_edk2.sh /usr/local/bin/mkfirmware_rv64_edk2.sh
+# RUN cd /firmware && /usr/local/bin/mkfirmware_rv64_edk2.sh
 
 COPY mkfirmware_rv32_opensbi.sh /usr/local/bin/mkfirmware_rv32_opensbi.sh
 RUN cd /firmware && /usr/local/bin/mkfirmware_rv32_opensbi.sh
@@ -179,8 +180,13 @@ RUN cd /firmware && /usr/local/bin/mkfirmware_rv32_opensbi.sh
 COPY mkfirmware_rv64_opensbi.sh /usr/local/bin/mkfirmware_rv64_opensbi.sh
 RUN cd /firmware && /usr/local/bin/mkfirmware_rv64_opensbi.sh
 
+RUN apt install --yes libgnutls28-dev
+
 COPY mkfirmware_rv64_uboot.sh /usr/local/bin/mkfirmware_rv64_uboot.sh
 RUN cd /firmware && /usr/local/bin/mkfirmware_rv64_uboot.sh
+
+COPY mkfirmware_rv64_uboot_acpi.sh /usr/local/bin/mkfirmware_rv64_uboot_acpi.sh
+RUN cd /firmware && /usr/local/bin/mkfirmware_rv64_uboot_acpi.sh
 
 COPY mkrootfs_rv64_alpine.sh /usr/local/bin/mkrootfs_rv64_alpine.sh
 RUN cd /rootfs && /usr/local/bin/mkrootfs_rv64_alpine.sh
