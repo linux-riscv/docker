@@ -180,6 +180,12 @@ RUN cd /firmware && /usr/local/bin/mkfirmware_rv32_opensbi.sh
 COPY mkfirmware_rv64_opensbi.sh /usr/local/bin/mkfirmware_rv64_opensbi.sh
 RUN cd /firmware && /usr/local/bin/mkfirmware_rv64_opensbi.sh
 
+COPY mkrootfs_rv64_alpine.sh /usr/local/bin/mkrootfs_rv64_alpine.sh
+RUN cd /rootfs && /usr/local/bin/mkrootfs_rv64_alpine.sh
+
+COPY mkrootfs_rv64_ubuntu.sh /usr/local/bin/mkrootfs_rv64_ubuntu.sh
+RUN cd /rootfs && /usr/local/bin/mkrootfs_rv64_ubuntu.sh
+
 RUN apt install --yes libgnutls28-dev
 
 COPY mkfirmware_rv64_uboot.sh /usr/local/bin/mkfirmware_rv64_uboot.sh
@@ -187,12 +193,6 @@ RUN cd /firmware && /usr/local/bin/mkfirmware_rv64_uboot.sh
 
 COPY mkfirmware_rv64_uboot_acpi.sh /usr/local/bin/mkfirmware_rv64_uboot_acpi.sh
 RUN cd /firmware && /usr/local/bin/mkfirmware_rv64_uboot_acpi.sh
-
-COPY mkrootfs_rv64_alpine.sh /usr/local/bin/mkrootfs_rv64_alpine.sh
-RUN cd /rootfs && /usr/local/bin/mkrootfs_rv64_alpine.sh
-
-COPY mkrootfs_rv64_ubuntu.sh /usr/local/bin/mkrootfs_rv64_ubuntu.sh
-RUN cd /rootfs && /usr/local/bin/mkrootfs_rv64_ubuntu.sh
 
 COPY --from=0 /usr/local /usr/local
 
