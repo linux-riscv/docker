@@ -19,9 +19,11 @@ esac
 # Bump version here
 gcc_ver=14.2.0
 llvm_ver=19.1.1
+gcc_old_ver=11.5.0
 ###
 
 gcc_base=gcc-${gcc_ver}-nolibc
+gcc_old_base=gcc-${gcc_old_ver}-nolibc
 llvm_dir=llvm-${llvm_ver}-${arch}
 
 mkdir /opt || true
@@ -30,9 +32,16 @@ cd /opt
 llvm=${llvm_dir}.tar.xz
 curl -O https://mirrors.edge.kernel.org/pub/tools/llvm/files/${llvm}
 tar xf ${llvm}
+
 gcc=${tcarch}-${gcc_base}-riscv64-linux.tar.xz
 curl -O https://mirrors.edge.kernel.org/pub/tools/crosstool/files/bin/${tcarch}/${gcc_ver}/${gcc}
 tar xf ${gcc}
+
+gcc_old=${tcarch}-${gcc_old_base}-riscv64-linux.tar.xz
+curl -O https://mirrors.edge.kernel.org/pub/tools/crosstool/files/bin/${tcarch}/${gcc_old_ver}/${gcc_old}
+tar xf ${gcc_old}
+mv ${gcc_old_base} gcc-old
+
 rm *.xz
 
 export PIPX_HOME=/root/.local/pipx/venvs
