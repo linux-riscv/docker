@@ -1,0 +1,141 @@
+# SPDX-FileCopyrightText: 2023 Rivos Inc.
+#
+# SPDX-License-Identifier: Apache-2.0
+FROM linaro/tuxrun-dispatcher:latest
+ARG DEBIAN_FRONTEND=noninteractive
+
+# Base packages to retrieve the other repositories/packages
+RUN apt-get update
+RUN apt-get install --yes --no-install-recommends \
+    build-essential \
+    git \
+    libdw-dev \
+    libelf-dev \
+    libglib2.0-dev \
+    libguestfs-tools \
+    libpython3-dev \
+    libslirp-dev \
+    ninja-build \
+    python-is-python3 \
+    python3-docutils \
+    python3-git \
+    python3-ply \
+    python3-ruamel.yaml \
+    python3-venv \
+    zlib1g-dev
+
+SHELL [ "/bin/bash", "--login", "-e", "-o", "pipefail", "-c" ]
+WORKDIR /tmp
+
+RUN apt-get update && apt-get install --yes --no-install-recommends \
+    acpica-tools \
+    apt-transport-https \
+    arch-test \
+    autoconf \
+    automake \
+    autotools-dev \
+    bash-completion \
+    bc \
+    binfmt-support \
+    bison \
+    bsdextrautils \
+    bsdmainutils \
+    build-essential \
+    ca-certificates \
+    ccache \
+    cmake \
+    cpio \
+    curl \
+    diffstat \
+    file \
+    flex \
+    g++-riscv64-linux-gnu \
+    gawk \
+    gcc-riscv64-linux-gnu \
+    gdb \
+    gettext \
+    git \
+    git-lfs \
+    gnupg \
+    gperf \
+    groff \
+    guestfish \
+    keyutils \
+    kmod \
+    less \
+    libdw-dev \
+    libelf-dev \
+    libgmp-dev \
+    libguestfs-tools \
+    libmpc-dev \
+    libpython3-dev \
+    libssl-dev \
+    liburing-dev \
+    libuuid1 \
+    linux-image-generic \
+    lsb-release \
+    mmdebstrap \
+    ninja-build \
+    parallel \
+    patchutils \
+    perl \
+    pipx \
+    pkg-config \
+    psmisc \
+    python-is-python3 \
+    python3-docutils \
+    python3-git \
+    python3-jsonschema \
+    python3-ply \
+    python3-ruamel.yaml \
+    python3-venv \
+    qemu-kvm \
+    qemu-system-misc \
+    qemu-user-static \
+    qemu-utils \
+    rsync \
+    ruby \
+    socat \
+    software-properties-common \
+    ssh \
+    strace \
+    swig \
+    texinfo \
+    time \
+    traceroute \
+    unzip \
+    uuid-dev \
+    vim \
+    wget \
+    xz-utils \
+    yamllint \
+    zlib1g-dev \
+    zstd
+
+RUN python3 -m venv /build/.env
+RUN . /build/.env/bin/activate && pip install -U tuxrun
+
+COPY mkqemu.sh /usr/local/bin/mkqemu.sh
+RUN cd /tmp && /usr/local/bin/mkqemu.sh
+
+RUN mkdir -p /build
+WORKDIR /build
+
+RUN git clone https://github.com/linux-riscv/tuxrun -b dev/alex/riscv64
+
+RUN git clone https://github.com/linux-riscv/test-definitions -b dev/alex/riscv64
+RUN tar -C test-definitions/ --zstd -cf test-definitions-riscv64.tar.zst .
+
+# libhugetlbfs
+RUN git clone https://github.com/libhugetlbfs/libhugetlbfs -b 2.23
+COPY patches/libhugetlbfs/0001-Do-not-run-stack_grow_into_huge.patch /build/libhugetlbfs
+COPY patches/libhugetlbfs/0003-Disable-hugepage-backed-malloc-if-__morecore-is-not-.patch /build/libhugetlbfs
+WORKDIR /build/libhugetlbfs
+RUN patch -p1 < 0001-Do-not-run-stack_grow_into_huge.patch
+RUN patch -p1 < 0003-Disable-hugepage-backed-malloc-if-__morecore-is-not-.patch
+RUN make ARCH=riscv64 CC=riscv64-linux-gnu-gcc LD=riscv64-linux-gnu-ld -j8
+RUN mkdir -p /build/libhugetlbfs
+RUN make ARCH=riscv64 PREFIX=/build/ install
+RUN cd /build && tar --transform "s/build/\/opt/" -cJvf libhugetlbfs.tar.xz /build/libhugetlbfs
+
+RUN mkdir -p /build/squad_json
