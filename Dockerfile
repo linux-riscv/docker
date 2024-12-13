@@ -93,7 +93,10 @@ RUN apt-get update && apt-get install --yes --no-install-recommends \
     python3-git \
     python3-jsonschema \
     python3-ply \
+    python3-requests \
+    python3-requests-oauthlib \
     python3-ruamel.yaml \
+    python3-tap \
     python3-venv \
     qemu-kvm \
     qemu-system-misc \
