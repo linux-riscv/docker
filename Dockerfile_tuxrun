@@ -5,8 +5,7 @@ FROM linaro/tuxrun-dispatcher:latest
 ARG DEBIAN_FRONTEND=noninteractive
 
 # Base packages to retrieve the other repositories/packages
-RUN apt-get update
-RUN apt-get install --yes --no-install-recommends \
+RUN apt-get update && apt-get install --yes --no-install-recommends \
     build-essential \
     git \
     libdw-dev \
@@ -22,6 +21,7 @@ RUN apt-get install --yes --no-install-recommends \
     python3-ply \
     python3-ruamel.yaml \
     python3-venv \
+    ubuntu-keyring \
     zlib1g-dev
 
 SHELL [ "/bin/bash", "--login", "-e", "-o", "pipefail", "-c" ]
@@ -121,6 +121,10 @@ RUN cd /tmp && /usr/local/bin/mkqemu.sh
 RUN mkdir -p /build
 WORKDIR /build
 
+# Workaround to force the execution of git clone, otherwise we get stuck with
+# an old version...
+# docker build --build-arg DATE_STAMP=$(date +%Y%m%d-%H%M%S) -t ghcr.io/linux-riscv/linaro-tuxrun-dispatcher-riscv64 -f Dockerfile_tuxrun .
+ARG DATE_STAMP
 RUN git clone https://github.com/linux-riscv/tuxrun -b dev/alex/riscv64
 
 RUN git clone https://github.com/linux-riscv/test-definitions -b dev/alex/riscv64
@@ -137,5 +141,15 @@ RUN make ARCH=riscv64 CC=riscv64-linux-gnu-gcc LD=riscv64-linux-gnu-ld -j8
 RUN mkdir -p /build/libhugetlbfs
 RUN make ARCH=riscv64 PREFIX=/build/ install
 RUN cd /build && tar --transform "s/build/\/opt/" -cJvf libhugetlbfs.tar.xz /build/libhugetlbfs
+
+# xfstests
+# Did not find a way to cross compile xfstests and it's too slow natively for
+# the CI, so it needs to be built locally. The current version is v2024.12.01.
+COPY archive/xfstests.tar.xz /build
+
+RUN mkdir -p /rootfs
+COPY systemd-debian-customize-hook-tuxrun.sh /usr/local/bin/systemd-debian-customize-hook.sh
+COPY mkrootfs_rv64_ubuntu.sh /usr/local/bin/mkrootfs_rv64_ubuntu.sh
+RUN cd /rootfs && /usr/local/bin/mkrootfs_rv64_ubuntu.sh tuxrun
 
 RUN mkdir -p /build/squad_json
