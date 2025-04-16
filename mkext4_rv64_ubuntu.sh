@@ -1,5 +1,5 @@
 #!/bin/bash
-# SPDX-FileCopyrightText: 2023 Rivos Inc.
+# SPDX-FileCopyrightText: 2025 Rivos Inc.
 #
 # SPDX-License-Identifier: Apache-2.0
 
@@ -13,9 +13,14 @@ distro=noble
 
 packages=(
         arping
+        bc
         binutils
+        btrfs-progs
+        dosfstools
         elfutils
         ethtool
+        exfatprogs
+        f2fs-tools
         fsverity
         iproute2
         iptables
@@ -36,6 +41,7 @@ packages=(
         tcpdump
         udev
         uuid-runtime
+        xfsprogs
         zlib1g
 )
 packages=$(IFS=, && echo "${packages[*]}")
