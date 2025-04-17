@@ -103,6 +103,7 @@ RUN apt-get update && apt-get install --yes --no-install-recommends \
     texinfo \
     time \
     traceroute \
+    ubuntu-keyring \
     unzip \
     uuid-dev \
     vim \
@@ -118,8 +119,16 @@ RUN . /build/.env/bin/activate && pip install -U tuxrun
 COPY mkqemu.sh /usr/local/bin/mkqemu.sh
 RUN cd /tmp && /usr/local/bin/mkqemu.sh
 
+RUN mkdir -p /rootfs
+COPY systemd-debian-autologin.sh /usr/local/bin/systemd-debian-autologin.sh
+COPY mkext4_rv64_ubuntu.sh /usr/local/bin/mkext4_rv64_ubuntu.sh
+RUN cd /rootfs && /usr/local/bin/mkext4_rv64_ubuntu.sh
+
 RUN mkdir -p /build
 WORKDIR /build
+
+RUN git clone https://github.com/riscv-software-src/opensbi -b v1.6
+RUN cd opensbi && make ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu- PLATFORM=generic
 
 RUN git clone https://github.com/linux-riscv/tuxrun -b dev/alex/riscv64
 
@@ -138,4 +147,46 @@ RUN mkdir -p /build/libhugetlbfs
 RUN make ARCH=riscv64 PREFIX=/build/ install
 RUN cd /build && tar --transform "s/build/\/opt/" -cJvf libhugetlbfs.tar.xz /build/libhugetlbfs
 
+# xfs
+WORKDIR /build
+RUN git clone git://git.kernel.org/pub/scm/fs/xfs/xfstests-dev.git
+RUN dpkg --add-architecture riscv64
+RUN apt-get update && apt-get install --yes --no-install-recommends 			\
+	acl:riscv64 attr:riscv64 libacl1-dev:riscv64 libaio-dev:riscv64 		\
+	libcap-dev:riscv64 libgdbm-dev:riscv64 libtool:riscv64 xfslibs-dev:riscv64	\
+	libtool-bin:riscv64 liburing-dev:riscv64 libuuid1:riscv64 quota:riscv64 	\
+	uuid-dev:riscv64 uuid-runtime:riscv64 libgdbm-compat-dev:riscv64
+# FIXME have to install twice because the first one fails...
+RUN cd xfstests-dev && make CC=riscv64-linux-gnu-gcc LD=riscv64-linux-gnu-ld PKG_LIB_DIR=/build/xfstests install
+RUN cd xfstests-dev && make CC=riscv64-linux-gnu-gcc LD=riscv64-linux-gnu-ld PKG_LIB_DIR=/build/xfstests install
+RUN cd /build && tar --transform "s/build/\/opt/" -cJvf xfstests.tar.xz /build/xfstests
+# FIXME python3:riscv64 overwrites host python3...
+RUN apt remove --yes python3.13-minimal:riscv64
+RUN apt-get install --yes --no-install-recommends \
+	python3-setproctitle python3-yaml python3-guestfs python3-netifaces python3-requests python3-pexpect
+
+# cfi
+# We need a cfi enabled toolchain, so let's build it
+# Build fails for now, so instead use an already built toolchain un /build
+# from here https://gitlab.ba.rivosinc.com/api/v4/projects/704/packages/generic/cfi_toolchain/sept2024/cfi_sept2024.tar.gz
+# It must be downloaded beforehand.
+#WORKDIR /build
+#RUN git clone https://github.com/sifive/riscv-gnu-toolchain -b cfi-dev
+#WORKDIR /build/riscv-gnu-toolchain
+#RUN git config --global url."https://github.com/".insteadOf "git@github.com:"
+#RUN mkdir build
+#RUN ./configure --prefix=/build/riscv-gnu-toolchain/build --with-arch=rv64gc --enable-linux --disable-gdb
+#RUN make
+#RUN make build-qemu
+WORKDIR /build
+COPY cfi_sept2024.tar.gz /build
+RUN tar xvf cfi_sept2024.tar.gz
+RUN mkdir -p /build/cfi
+COPY tests/cfi/main.c /build/cfi
+WORKDIR /build/cfi
+RUN riscv64-linux-gnu-gcc main.c -o not_cfi_compiled_should_fail -static
+RUN PATH=/build/INSTALL_Sept24/bin:$PATH riscv64-unknown-linux-gnu-gcc main.c -o cfi_compiled_should_succeed -static
+RUN cd /build && tar --transform "s/build/\/opt/" -cJvf isolated-cfi.tar.xz /build/cfi
+
+WORKDIR /build
 RUN mkdir -p /build/squad_json
