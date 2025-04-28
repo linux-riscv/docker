@@ -15,7 +15,7 @@ trap 'rm -rf "$tmp"' EXIT
 cd $tmp
 git clone https://gitlab.com/qemu-project/qemu.git
 cd qemu
-git checkout -b v9.2.0
+git checkout -b v9.2.3
 git submodule update --init
 mkdir build
 cd build

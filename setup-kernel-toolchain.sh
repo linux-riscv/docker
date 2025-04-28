@@ -18,7 +18,7 @@ esac
 
 # Bump version here
 gcc_ver=14.2.0
-llvm_ver=19.1.5
+llvm_ver=20.1.3
 gcc_old_ver=11.5.0
 ###
 

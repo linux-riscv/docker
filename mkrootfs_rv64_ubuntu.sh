@@ -9,7 +9,7 @@ set -euo pipefail
 set -x
 
 d=$(dirname "${BASH_SOURCE[0]}")
-distro=noble
+distro=plucky
 
 packages=(
         arping

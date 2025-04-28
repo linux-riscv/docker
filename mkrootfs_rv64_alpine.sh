@@ -17,7 +17,7 @@ trap 'rm -rf "$root"' EXIT
 arch=$(uname -m)
 
 cd $root
-curl -O http://dl-cdn.alpinelinux.org/alpine/edge/main/${arch}/apk-tools-static-2.14.7-r0.apk
+curl -O http://dl-cdn.alpinelinux.org/alpine/edge/main/${arch}/apk-tools-static-2.14.9-r1.apk
 tar xvf *.apk
 
 ./sbin/apk.static --arch riscv64 \

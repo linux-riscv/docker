@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: 2023 Rivos Inc.
 #
 # SPDX-License-Identifier: Apache-2.0
-FROM ubuntu:noble
+FROM ubuntu:plucky
 ARG DEBIAN_FRONTEND=noninteractive
 
 # Base packages to retrieve the other repositories/packages
@@ -27,7 +27,7 @@ RUN apt-get install --yes --no-install-recommends \
 COPY mkqemu.sh /usr/local/bin/mkqemu.sh
 RUN cd /tmp && /usr/local/bin/mkqemu.sh
 
-FROM ubuntu:noble
+FROM ubuntu:plucky
 ARG DEBIAN_FRONTEND=noninteractive
 
 SHELL [ "/bin/bash", "--login", "-e", "-o", "pipefail", "-c" ]
@@ -121,7 +121,7 @@ RUN apt-get update && apt-get install --yes --no-install-recommends \
     zlib1g-dev \
     zstd
 
-RUN echo 'deb [arch=amd64] http://apt.llvm.org/noble/ llvm-toolchain-noble main' >> /etc/apt/sources.list.d/llvm.list
+RUN echo 'deb [arch=amd64] http://apt.llvm.org/plucky/ llvm-toolchain-plucky main' >> /etc/apt/sources.list.d/llvm.list
 RUN wget -qO- https://apt.llvm.org/llvm-snapshot.gpg.key | tee /etc/apt/trusted.gpg.d/apt.llvm.org.asc
 
 RUN apt update
@@ -133,9 +133,9 @@ RUN cd $(mktemp -d) && git clone https://git.kernel.org/pub/scm/devel/pahole/pah
 RUN dpkg --add-architecture riscv64
 RUN sed -i 's/^deb/deb [arch=amd64]/' /etc/apt/sources.list
 RUN echo -e '\n\
-deb [arch=riscv64] http://ports.ubuntu.com/ubuntu-ports noble main restricted multiverse universe\n\
-deb [arch=riscv64] http://ports.ubuntu.com/ubuntu-ports noble-updates main\n\
-deb [arch=riscv64] http://ports.ubuntu.com/ubuntu-ports noble-security main\n'\
+deb [arch=riscv64] http://ports.ubuntu.com/ubuntu-ports plucky main restricted multiverse universe\n\
+deb [arch=riscv64] http://ports.ubuntu.com/ubuntu-ports plucky-updates main\n\
+deb [arch=riscv64] http://ports.ubuntu.com/ubuntu-ports plucky-security main\n'\
 >> /etc/apt/sources.list
 
 RUN sed -i -E "s/(URIs.*)/\1\nArchitectures: amd64/" /etc/apt/sources.list.d/ubuntu.sources
