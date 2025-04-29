@@ -121,7 +121,7 @@ RUN apt-get update && apt-get install --yes --no-install-recommends \
     zlib1g-dev \
     zstd
 
-RUN echo 'deb [arch=amd64] http://apt.llvm.org/plucky/ llvm-toolchain-plucky main' >> /etc/apt/sources.list.d/llvm.list
+RUN echo 'deb [arch=amd64] http://apt.llvm.org/plucky/ llvm-toolchain-plucky-20 main' >> /etc/apt/sources.list.d/llvm.list
 RUN wget -qO- https://apt.llvm.org/llvm-snapshot.gpg.key | tee /etc/apt/trusted.gpg.d/apt.llvm.org.asc
 
 RUN apt update
