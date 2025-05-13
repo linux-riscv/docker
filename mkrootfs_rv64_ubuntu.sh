@@ -13,7 +13,9 @@ distro=plucky
 
 packages=(
         arping
+        bc
         binutils
+        dc
         elfutils
         ethtool
         fsverity
