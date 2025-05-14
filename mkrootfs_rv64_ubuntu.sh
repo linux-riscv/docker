@@ -18,6 +18,7 @@ packages=(
         dc
         elfutils
         ethtool
+        fio
         fsverity
         iproute2
         iptables
@@ -27,6 +28,8 @@ packages=(
         libcap2
         libelf1
         libnuma1
+        libubsan1
+        liburing2
         net-tools
         netsniff-ng
         openssl
